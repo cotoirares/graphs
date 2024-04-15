@@ -1,5 +1,6 @@
 import copy
 import domain
+from collections import deque
 
 
 class Repository:
@@ -62,6 +63,25 @@ class Repository:
 
     def modify_data_of_certain_edge(self, node1, node2, new_data):
         self.list_of_edges.add_data_to_certain_edge(node1, node2, new_data)
+
+    def dfs(self, start_node, visited, component):
+        visited[start_node] = True
+        component.append(start_node)
+        for node in self.list_of_edges.get_domain()[start_node]:
+            if not visited[node]:
+                self.dfs(node, visited, component)
+
+    def connected_components(self):
+        visited = deque()
+        for key in self.list_of_edges.get_domain():
+            visited.append(False)
+        components = deque()
+        for key in self.list_of_edges.get_domain():
+            if not visited[key]:
+                component = deque()
+                self.dfs(key, visited, component)
+                components.append(component)
+        return components
 
     def __str__(self):
         return str(self.list_of_edges)

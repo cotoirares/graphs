@@ -1,6 +1,7 @@
 # UI for the graph operations
 
 import repository
+from collections import deque
 
 
 class UI:
@@ -20,7 +21,8 @@ class UI:
         print("10. Get set of inbound edges of a node")
         print("11. Modify data of a certain edge")
         print("12. Print the graph")
-        print("13. Exit")
+        print("13. Show the connected components using DFS")
+        print("14. Exit")
 
     def get_graph_from_file(self):
         reading_file = open("graph_data.txt", "r")
@@ -108,6 +110,18 @@ class UI:
                     for value in self.repo.get_domain()[key]:
                         print("Edge", key, "-", value, " with value:", self.repo.list_of_edges.data_map[key][value])
             elif user_input == "13":
+                print("The connected components are: ")
+                components = deque()
+                components = self.repo.connected_components()
+                count = 1
+                for component in components:
+                    print(f"Component {count}: ")
+                    for char in component:
+                        if (0 < char < 10) or char == ",":
+                            print(char, end=" ")
+                    print()
+                    count += 1
+            elif user_input == "14":
                 break
             else:
                 print("Invalid input")

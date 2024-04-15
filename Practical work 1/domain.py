@@ -12,9 +12,13 @@ class Domain:
         if node1 not in self.list_of_edges:
             self.list_of_edges[node1] = []
         self.list_of_edges[node1].append(node2)
+        self.list_of_edges[node2].append(node1)
         if node1 not in self.data_map:
             self.data_map[node1] = {}
         self.data_map[node1][node2] = 0
+        if node2 not in self.data_map:
+            self.data_map[node2] = {}
+        self.data_map[node2][node1] = 0
 
     def remove_edge(self, node1, node2):
         self.list_of_edges[node1].remove(node2)
@@ -36,9 +40,13 @@ class Domain:
         if node1 not in self.data_map:
             self.data_map[node1] = {}
         self.data_map[node1][node2] = data
+        if node2 not in self.data_map:
+            self.data_map[node2] = {}
+        self.data_map[node2][node1] = data
 
     def get_domain(self):
         return self.list_of_edges
+
 
     def __str__(self):
         return str(self.list_of_edges)
